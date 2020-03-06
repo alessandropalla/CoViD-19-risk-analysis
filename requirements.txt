@@ -1,5 +1,4 @@
 numpy
-tensorflow
 pandas
 pytest
 jupyter

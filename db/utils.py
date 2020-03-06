@@ -1,6 +1,5 @@
 from utils.logger import logger as log
 import pandas as pd
-import os
 
 
 class Database():
@@ -13,7 +12,9 @@ class Database():
         }
         self.dataframe = self.load_file(filename_map[db_type.lower()])
 
-    def get_patients_by_country(self, country):
+    def get_patients_by_country(self, country=None):
+        if country is None:
+            return self.dataframe
         if country not in self.get_countries():
             log.warning(f"Country {country} is not in the database")
         return self.dataframe[self.dataframe["Country/Region"] == country]

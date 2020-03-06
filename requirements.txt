@@ -2,4 +2,5 @@ numpy
 pandas
 pytest
 jupyter
+scikit-learn
 yapf

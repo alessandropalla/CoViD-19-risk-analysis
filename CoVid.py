@@ -1,6 +1,8 @@
 from utils.logger import logger, set_verbosity
 from analysis.regression import Predictor
-from db.utils import Database
+from db.utils import Database, to_numpy
+from analysis.model import SEIR
+from visualize.plot import plot
 import argparse
 
 
@@ -13,6 +15,20 @@ def define_and_parse_args():
                         help="Predict the number of confirmed infection in the next d days",
                         type=int,
                         required=True)
+    parser.add_argument("-R0",
+                        help="Infection R0",
+                        type=float,
+                        default=2.2)
+    parser.add_argument("-l",
+                        "--lockdown",
+                        help="Lockdown day, from the beginning of the epidemic",
+                        type=int,
+                        default=80)
+    parser.add_argument("-e",
+                        "--effectivness",
+                        help="Effectivness of the social isolation, as a percentage",
+                        type=float,
+                        default=0.3)
     parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true")
 
     return parser.parse_args()
@@ -23,27 +39,20 @@ def main(args):
     set_verbosity(args.verbose)
 
     # Get the arguments
-    confirmed = Database("confirmed")
-
-    italy_confirmed = confirmed.get_patients_by_country("Italy")
-    all_confirmed = confirmed.get_patients_by_country()
-
     logger.info("Italian Confirmed patients")
-    logger.info(italy_confirmed.loc[:, italy_confirmed.keys()[4]:italy_confirmed.keys()[-1]])
+    italy_confirmed = to_numpy(Database("confirmed").get_patients_by_country("Italy"))
+    plot(range(len(italy_confirmed)), [italy_confirmed], [("red", "total_confimred_in_italy")], filename="./italy_confirmed.png")
 
-    logger.info("Countries with confirmed patients")
-    logger.info(confirmed.get_countries())
+    model = SEIR(intervention_day=args.lockdown,
+                 R0 = args.R0,
+                 effectivness = args.effectivness,
+                 mean_incubation_time = 5.2,
+                 mean_removal_time = 2.1)
 
-    predictor = Predictor(all_confirmed)
-
-    predictor.generate_model()
-    train_dates, test_dates, train_cases, test_cases = predictor.generate_data()
-
-    predictor.fit(train_dates, train_cases)
-    # predictor.test(test_dates, test_cases)
-    prediction = predictor.predict(args.days)
-
-    logger.info(f"Number of predicted infections in the next {args.days} days: {[int(idx) for idx in prediction[-3:]]}")
+    y0 = [60000000, 0, 1, 0]
+    t =  list(range(args.days))
+    S, E, I, R = model.integrate(t, y0)
+    plot(t, [R], [("red", "total_infected")], filename="./figure2.6.png")
 
 
 if __name__ == "__main__":

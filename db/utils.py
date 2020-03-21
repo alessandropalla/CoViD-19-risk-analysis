@@ -1,5 +1,6 @@
 from utils.logger import logger as log
 import pandas as pd
+import numpy as np
 
 
 class Database():
@@ -30,3 +31,8 @@ class Database():
         file_path = f"{repo}/master/{db_path}/{filename}"
         # Read CSV
         return pd.read_csv(file_path)
+
+
+def to_numpy(dataframe, start=4):
+    cols = dataframe.keys()
+    return np.array(dataframe.loc[:, cols[start]:cols[-1]]).T

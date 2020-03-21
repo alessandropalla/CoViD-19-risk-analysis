@@ -44,9 +44,9 @@ def main(args):
 
     model = SEIR(intervention_day=args.lockdown,
                  R0 = args.R0,
-                 effectivness = args.effectivness,
+                 effectiveness = args.effectivness,
                  mean_incubation_time = 5.2,
-                 mean_removal_time = 2.1)
+                 mean_remove_time = 2.1)
 
     y0 = [60000000, 0, 1, 0]
     t =  list(range(args.days))

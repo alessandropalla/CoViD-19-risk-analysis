@@ -28,7 +28,7 @@ class Population():
             elements_fitness = self.fitness().values()
             total_fitness = sum(elements_fitness)
             probability_distribution = [p/total_fitness for p in elements_fitness]
-            return np.random.choice(elements, size = self.n_survivors, p = probability_distribution), min(elements_fitness)
+            return np.random.choice(self.elements, size = self.n_survivors, p = probability_distribution), min(elements_fitness)
         else:
             selected = self.best_models()[:self.n_survivors]
             return selected, self.element_fitness(selected[0])

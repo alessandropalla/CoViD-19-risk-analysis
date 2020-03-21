@@ -1,5 +1,4 @@
 from utils.logger import logger, set_verbosity
-from analysis.regression import Predictor
 from db.utils import Database, to_numpy
 from analysis.model import SEIR
 from visualize.plot import plot

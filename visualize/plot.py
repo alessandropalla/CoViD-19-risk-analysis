@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from utils.logger import logger
 import numpy as np
+import matplotlib
 
 def plot(t, data, labels, log_scale=False, filename=None):
     fig = plt.figure(facecolor='w')

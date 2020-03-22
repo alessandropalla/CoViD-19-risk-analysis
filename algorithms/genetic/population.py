@@ -1,18 +1,45 @@
 from multiprocessing.pool import ThreadPool as Pool
+from algorithms.genetic.genes import generate_gene
 import numpy as np
 import itertools
+import yaml
 
 class Population():
-    def __init__(self, elements, element_fitness, n_survivors, n_offsprings, random_choice=False):
-        # Get the elements
-        self.elements = list(elements)
-        self.element_fitness = lambda elem: (elem, element_fitness(elem))
-        self.model_type = list(set([type(elem) for elem in self.elements]))[0]
+    def __init__(self, model_type, element_fitness, filename):
 
-        # Parameters
-        self.n_survivors = n_survivors
-        self.n_offsprings = n_offsprings
-        self.random_choice = random_choice
+        # Save fitness function and the model type
+        self.element_fitness = lambda elem: (elem, element_fitness(elem))
+        self.model_type = model_type
+
+        # Load configuration from file
+        with open(filename, "r") as fp:       
+            self.load_configuration(yaml.load(fp, yaml.SafeLoader))
+
+        # Get the elements
+        self.initialize_population()
+
+    def load_configuration(self, configs):
+        # Number of generations
+        self.generations = configs["training"]["generations"]
+        # Number of survivors in each generations
+        self.survivors = configs["training"]["survivors"]
+        # Number of offsprings for each couple
+        self.offsprings = configs["training"]["offsprings"]
+        # Selection methods
+        self.selection_methods = configs["training"]["selection_methods"]
+
+        # Load genes configurations
+        with open(configs["genes"]["filename"], "r") as fp:
+            self.genes = yaml.load(fp, yaml.SafeLoader)
+
+    def initialize_population(self):
+        # number of elements in each generation
+        total_elements = self.survivors * self.offsprings // 2
+        self.elements = [self.generate_element() for _ in range(total_elements)]
+
+    def generate_element(self):
+        # Generate elements
+        return self.model_type(**{name: generate_gene(**params) for name, params in self.genes.items()})
 
     # Element fitness
     def fitness(self):
@@ -29,17 +56,17 @@ class Population():
 
     # Select individuals from a population
     def selection(self):
-        if self.random_choice:
+        if self.selection_methods.lower() == "stochastic":
             elements_fitness = self.fitness().values()
             probability_distribution = self.softmax(elements_fitness)
-            return np.random.choice(self.elements, size = self.n_survivors, p = probability_distribution), min(elements_fitness)
+            return np.random.choice(self.elements, size = self.survivors, p = probability_distribution), min(elements_fitness)
         else:
-            selected = self.best_models()[:self.n_survivors]
+            selected = self.best_models()[:self.survivors]
             return selected, self.element_fitness(selected[0])[1]
 
     # Randomly mix two parents to give N offsprings
     def crossover(self, parent1, parent2):
-        for _ in range(self.n_offsprings):
+        for _ in range(self.offsprings):
             which_one = np.random.randint(2, size=len(parent1.genes)).astype(np.bool)
             genome = np.choose(which_one, [parent1.sample(), parent2.sample()])
             yield self.model_type(*genome)
@@ -58,3 +85,7 @@ class Population():
                             for parent1, parent2 in self.random_match(survivors)], [])
         self.elements = population
         return best_fitness
+
+    def train(self):
+        for idx in range(100):
+            yield idx, self.step()

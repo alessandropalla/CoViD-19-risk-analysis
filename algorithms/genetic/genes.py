@@ -1,6 +1,5 @@
 import numpy as np
 
-# A gene that is sampling using a poisson distribution
 class __Gene():
   def __init__(self, value, distribution, **params):
     # Values that can mutate througth generations
@@ -38,3 +37,21 @@ class UniformIntGene(__Gene):
 class ConstGene(__Gene):
   def __init__(self, value, **params):
     super().__init__(value, lambda x, n: x * np.ones((n, 1)), **params)
+
+
+# Map string to gene class
+gene_map = {
+  "Normal": NormalGene,
+  "Poisson": PoissonGene,
+  "Uniform": UniformGene,
+  "UniformInt": UniformIntGene,
+  "Constant": ConstGene,
+}
+
+# Generate genes from parameters
+def generate_gene(gene_type, intitialization, **params):
+  value = intitialization["value"]
+  if "type" in intitialization and intitialization["type"].lower() == "random":
+    value = np.random.uniform(value[0], value[1])
+  return gene_map[gene_type](value, **params)
+

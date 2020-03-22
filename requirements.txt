@@ -3,4 +3,5 @@ pandas
 pytest
 jupyter
 scikit-learn
+pyyaml
 yapf

@@ -1,0 +1,8 @@
+training:
+  generations: 100
+  survivors: 10
+  offsprings: 10
+  selection_methods: "best"
+
+genes:
+  filename: "analysis/parameters/SEIR_italy.yaml"

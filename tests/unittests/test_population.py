@@ -3,9 +3,11 @@ import numpy as np
 import pytest
 
 @pytest.mark.parametrize("days", range(10, 200, 20))
-def test_population(days):
+@pytest.mark.parametrize("filename", ["tests/unittests/test_configurations/population_test_1.yaml",
+                                      "tests/unittests/test_configurations/population_test_2.yaml"])
+def test_population(days, filename):
     reference = np.linspace(0, days, days)
-    population = SEIRPopulation(reference, 10, 10)
+    population = SEIRPopulation(reference, filename)
 
     # Check fitness function
     assert population.fitness()

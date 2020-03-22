@@ -1,6 +1,6 @@
 from utils.logger import logger, set_verbosity
 from db.utils import Database, to_numpy
-from analysis.model import SEIR
+from analysis.model import SEIR, SEIRPopulation 
 from visualize.plot import plot
 import argparse
 
@@ -22,7 +22,7 @@ def define_and_parse_args():
                         "--lockdown",
                         help="Lockdown day, from the beginning of the epidemic",
                         type=int,
-                        default=80)
+                        default=60)
     parser.add_argument("-e",
                         "--effectivness",
                         help="Effectivness of the social isolation, as a percentage",
@@ -51,7 +51,17 @@ def main(args):
     y0 = [60000000, 0, 1, 0]
     t =  list(range(args.days))
     S, E, I, R = model.integrate(t, y0)
-    plot(t, [R], [("red", "total_infected")], filename="./figure2.6.png")
+    plot(t, [R], [("red", "total_infected")], filename="./literature_model.png")
+
+    logger.info("Start fittting")
+    population = SEIRPopulation(italy_confirmed, "analysis/configurations/100_generations.yaml")
+
+    for idx, best_fitness in population.train():
+        logger.info(f"Generation {idx}: best fitness={best_fitness}")
+
+    best_model = population.best_models()[0]
+    S, E, I, R = best_model.simulate(t)
+    plot(t, [R], [("red", "total_infected")], filename="./best_model.png")
 
 
 if __name__ == "__main__":

@@ -23,16 +23,19 @@ class Population():
     def best_models(self):
         return [elem for elem, fitness in sorted(self.fitness().items(), key=lambda item: item[1], reverse=True)]
 
+    def softmax(self, x):
+        score = np.exp(np.asarray(list(x)))
+        return (score / score.sum(0)).tolist()
+
     # Select individuals from a population
     def selection(self):
         if self.random_choice:
             elements_fitness = self.fitness().values()
-            total_fitness = sum(elements_fitness)
-            probability_distribution = [p/total_fitness for p in elements_fitness]
+            probability_distribution = self.softmax(elements_fitness)
             return np.random.choice(self.elements, size = self.n_survivors, p = probability_distribution), min(elements_fitness)
         else:
             selected = self.best_models()[:self.n_survivors]
-            return selected, self.element_fitness(selected[0])
+            return selected, self.element_fitness(selected[0])[1]
 
     # Randomly mix two parents to give N offsprings
     def crossover(self, parent1, parent2):

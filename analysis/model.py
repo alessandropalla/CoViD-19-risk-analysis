@@ -1,6 +1,6 @@
-from analysis.genetic_algorithms.genes import ConstGene, UniformGene, UniformIntGene, PoissonGene, NormalGene
-from analysis.genetic_algorithms.individuals import GeneticModel
-from analysis.genetic_algorithms.population import Population
+from algorithms.genetic.genes import ConstGene, UniformGene, UniformIntGene, PoissonGene, NormalGene
+from algorithms.genetic.individuals import GeneticModel
+from algorithms.genetic.population import Population
 from scipy.integrate import solve_ivp
 import numpy as np
 
@@ -51,6 +51,7 @@ class SEIR():
                             y0=y0,
                             t_eval=t,
                             args=[self.intervention_day, self.beta_0, self.beta_1, self.sigma, self.gamma],
+                            method="RK45",
                             vectorized=True)
         # return results.y.T
         y = results.y.T
@@ -88,7 +89,7 @@ class SEIRPopulation(Population):
     def generate_population(self, size):
         for _ in range(size):
             ConstGene, UniformGene, UniformIntGene, PoissonGene, NormalGene
-            yield SEIRModel(intervention_day = UniformGene(80).sample(),
+            yield SEIRModel(intervention_day = UniformIntGene(80, ).sample(),
                             R0 = NormalGene(2.2, min_val=1.5).sample(),
                             effectiveness = NormalGene(0.3, min_val=0.1, max_val=1.0).sample(),
                             incubation_time = UniformGene(5.2, min_val=1, max_val=15).sample(),

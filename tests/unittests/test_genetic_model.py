@@ -1,4 +1,4 @@
-from analysis.genetic_algorithms.genes import ConstGene
+from algorithms.genetic.genes import ConstGene
 from analysis.model import SEIRModel
 import pytest
 

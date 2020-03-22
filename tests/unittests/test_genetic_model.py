@@ -12,14 +12,14 @@ import pytest
 @pytest.mark.parametrize("initial_infected", [1, 10])
 def test_model(intervention_day, R0, effectiveness, incubation_time, remove_time, population_size, initial_exposed, initial_infected):
 
-   model = SEIRModel(intervention_day = ConstGene(intervention_day),
-                     R0 = ConstGene(R0),
-                     effectiveness = ConstGene(effectiveness),
-                     incubation_time = ConstGene(incubation_time),
-                     remove_time = ConstGene(remove_time),
-                     population_size = ConstGene(population_size),
-                     initial_exposed = ConstGene(initial_exposed),
-                     initial_infected = ConstGene(initial_infected))
+   model = SEIRModel(intervention_day = ConstGene("intervention_day", intervention_day),
+                     R0 = ConstGene("R0", R0),
+                     effectiveness = ConstGene("effectiveness", effectiveness),
+                     incubation_time = ConstGene("incubation_time", incubation_time),
+                     remove_time = ConstGene("remove_time", remove_time),
+                     population_size = ConstGene("population_size", population_size),
+                     initial_exposed = ConstGene("initial_exposed", initial_exposed),
+                     initial_infected = ConstGene("initial_infected", initial_infected))
 
    assert model
 

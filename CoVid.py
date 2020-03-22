@@ -53,18 +53,6 @@ def main(args):
     S, E, I, R = model.integrate(t, y0)
     plot(t, [R], [("red", "total_infected")], filename="./literature_model.png")
 
-    logger.info("Start fittting")
-    population = SEIRPopulation(italy_confirmed, "analysis/configurations/100_generations.yaml")
-
-    for idx, best_fitness in population.train():
-        logger.info(f"Generation {idx}: best fitness={best_fitness}")
-
-    best_model = population.best_models()[0]
-    best_model.dump("ciao.yaml")
-    S, E, I, R = best_model.simulate(t)
-    plot(t, [R], [("red", "total_infected")], filename="./best_model.png")
-
-
 if __name__ == "__main__":
     args = define_and_parse_args()
     main(args)

@@ -1,12 +1,12 @@
 intervention_day:
-  gene_type: "Uniform"
+  gene_type: "UniformIntGene"
   intitialization: 
     type: "int"
     value: 80
   delta: 20
 
 R0:
-  gene_type: "Normal"
+  gene_type: "NormalGene"
   intitialization: 
     type: "random"
     value: [1.5, 3]
@@ -14,16 +14,16 @@ R0:
   min_val: 1.5
 
 effectiveness:
-  gene_type: "Normal"
+  gene_type: "NormalGene"
   intitialization: 
     type: "random"
-    value: [0.1, 1.0]
-  sigma: 0.4
-  min_val: 1.5
-  max_val: 1.0
+    value: [0.3, 0.8]
+  sigma: 0.1
+  min_val: 0.3
+  max_val: 0.8
 
 incubation_time:
-  gene_type: "Uniform"
+  gene_type: "UniformGene"
   intitialization: 
     type: "random"
     value: [1, 10]
@@ -32,7 +32,7 @@ incubation_time:
   max_val: 15
 
 remove_time:
-  gene_type: "Uniform"
+  gene_type: "UniformGene"
   intitialization: 
     type: "random"
     value: [1, 10]
@@ -41,7 +41,7 @@ remove_time:
   max_val: 15
 
 population_size:
-  gene_type: "Constant"
+  gene_type: "ConstGene"
   intitialization: 
     type: "int"
     value: 600000
@@ -50,7 +50,7 @@ population_size:
   max_val: 15
 
 initial_exposed:
-  gene_type: "Normal"
+  gene_type: "NormalGene"
   intitialization: 
     type: "random"
     value: [1, 100]
@@ -59,7 +59,7 @@ initial_exposed:
   max_val: 1000
 
 initial_infected:
-  gene_type: "Normal"
+  gene_type: "NormalGene"
   intitialization: 
     type: "random"
     value: [1, 100]

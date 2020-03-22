@@ -39,7 +39,7 @@ class Population():
 
     def generate_element(self):
         # Generate elements
-        return self.model_type(**{name: generate_gene(**params) for name, params in self.genes.items()})
+        return self.model_type(**{name: generate_gene(name, **params) for name, params in self.genes.items()})
 
     # Element fitness
     def fitness(self):
@@ -87,5 +87,5 @@ class Population():
         return best_fitness
 
     def train(self):
-        for idx in range(100):
+        for idx in range(self.generations):
             yield idx, self.step()

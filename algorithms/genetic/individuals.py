@@ -1,4 +1,5 @@
 import numpy as np
+import yaml
 
 class GeneticModel():
     def __init__(self, model, genes):
@@ -21,3 +22,8 @@ class GeneticModel():
     # Generate N childs from this parent
     def sample(self):
         return [gene.sample() for gene in self.genes]
+
+    def dump(self, filename):
+        with open(filename, "w") as fp:
+            yaml.dump(dict(gene.dump() for gene in self.genes),
+                      fp, yaml.SafeDumper)

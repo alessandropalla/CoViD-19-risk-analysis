@@ -1,7 +1,7 @@
 training:
   generations: 100
-  survivors: 10
-  offsprings: 10
+  survivors: 50
+  offsprings: 20
   selection_methods: "best"
 
 genes:

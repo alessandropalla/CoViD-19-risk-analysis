@@ -60,6 +60,7 @@ def main(args):
         logger.info(f"Generation {idx}: best fitness={best_fitness}")
 
     best_model = population.best_models()[0]
+    best_model.dump("ciao.yaml")
     S, E, I, R = best_model.simulate(t)
     plot(t, [R], [("red", "total_infected")], filename="./best_model.png")
 

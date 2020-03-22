@@ -91,8 +91,8 @@ class SEIRPopulation(Population):
             yield SEIRModel(intervention_day = UniformGene(80).sample(),
                             R0 = NormalGene(2.2, min_val=1.5).sample(),
                             effectiveness = NormalGene(0.3, min_val=0.1, max_val=1.0).sample(),
-                            incubation_time = UniformGene(5.2, min_val=0.1, max_val=15).sample(),
-                            remove_time = UniformGene(2.1, min_val=0.1, max_val=15).sample(),
+                            incubation_time = UniformGene(5.2, min_val=1, max_val=15).sample(),
+                            remove_time = UniformGene(2.1, min_val=1, max_val=15).sample(),
                             population_size = ConstGene(60000000).sample(),
-                            initial_exposed = NormalGene(5, min_val=0, max_val=100).sample(),
-                            initial_infected = NormalGene(5, min_val=0, max_val=10).sample())
+                            initial_exposed = NormalGene(5, min_val=0, max_val=1000).sample(),
+                            initial_infected = NormalGene(5, min_val=0, max_val=100).sample())

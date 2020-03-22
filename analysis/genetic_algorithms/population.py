@@ -1,4 +1,4 @@
-import multiprocessing
+from multiprocessing.pool import ThreadPool as Pool
 import numpy as np
 import itertools
 
@@ -6,7 +6,7 @@ class Population():
     def __init__(self, elements, element_fitness, n_survivors, n_offsprings, random_choice=False):
         # Get the elements
         self.elements = list(elements)
-        self.element_fitness = element_fitness
+        self.element_fitness = lambda elem: (elem, element_fitness(elem))
         self.model_type = list(set([type(elem) for elem in self.elements]))[0]
 
         # Parameters
@@ -16,11 +16,12 @@ class Population():
 
     # Element fitness
     def fitness(self):
-        return {elem: self.element_fitness(elem) for elem in self.elements}
+        with Pool(processes=4) as pool:
+            return dict(pool.map(self.element_fitness, self.elements))
 
     # Return the models sorted by their fitness
     def best_models(self):
-        return [elem for elem, fitness in sorted(self.fitness().items(), key=lambda item: item[1])]
+        return [elem for elem, fitness in sorted(self.fitness().items(), key=lambda item: item[1], reverse=True)]
 
     # Select individuals from a population
     def selection(self):
@@ -52,4 +53,5 @@ class Population():
         survivors, best_fitness = self.selection()
         population = sum([list(self.crossover(parent1, parent2))
                             for parent1, parent2 in self.random_match(survivors)], [])
-        return population
+        self.elements = population
+        return best_fitness

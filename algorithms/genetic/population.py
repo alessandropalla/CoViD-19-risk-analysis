@@ -91,7 +91,7 @@ class Population():
         population = sum([list(self.crossover(parent1, parent2)) for parent1, parent2 in self.random_match(survivors)],
                          [])
         self.elements = population
-        return best_fitness
+        return best_fitness, population
 
     def train(self):
         for idx in range(self.generations):

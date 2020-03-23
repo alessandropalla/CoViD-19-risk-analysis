@@ -44,10 +44,7 @@ population_size:
   gene_type: "ConstGene"
   intitialization: 
     type: "int"
-    value: 600000
-  sigma: 5
-  min_val: 1
-  max_val: 15
+    value: 66000000
 
 initial_exposed:
   gene_type: "NormalGene"

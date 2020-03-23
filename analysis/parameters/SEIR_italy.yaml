@@ -2,8 +2,10 @@ intervention_day:
   gene_type: "UniformIntGene"
   intitialization: 
     type: "random"
-    value: [5, 70]
+    value: [5, 20]
   delta: 5
+  min_val: 1
+  max_val: 20
 
 R0:
   gene_type: "NormalGene"

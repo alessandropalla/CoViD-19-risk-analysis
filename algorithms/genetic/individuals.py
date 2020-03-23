@@ -16,7 +16,9 @@ class GeneticModel():
     def fitness(self, data, valid=None):
         t = np.linspace(0, len(data), len(data))
         result = self.simulate(t)
-        return sum([1 / (np.linalg.norm(data - res)) for idx, res in enumerate(result) if valid and valid[idx]])
+        return sum([
+            1 / (np.linalg.norm(np.log(data) - np.log(res))) for idx, res in enumerate(result) if valid and valid[idx]
+        ])
 
     # Generate N childs from this parent
     def sample(self):

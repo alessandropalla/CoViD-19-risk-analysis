@@ -33,6 +33,13 @@ class Database():
         return pd.read_csv(file_path)
 
 
-def to_numpy(dataframe, start=4):
+def to_numpy(dataframe, start=4, filter=lambda x: x > 100):
     cols = dataframe.keys()
-    return np.array(dataframe.loc[:, cols[start]:cols[-1]]).T
+    # Remove the initial columns, sum over all the provinces
+    df = dataframe.loc[:, cols[start]:cols[-1]].sum(axis=0)
+    # Convert to numpy
+    arr = np.array(df)
+    dates = np.array(pd.to_datetime(df.keys()))
+    # Get the first index that satisfy the filter
+    index = min(np.argwhere(filter(arr))).item()
+    return dates[index:], arr[index:]

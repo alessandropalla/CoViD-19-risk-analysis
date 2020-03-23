@@ -36,9 +36,8 @@ def main(args):
 
     # Get the arguments
     logger.info("Italian Confirmed patients")
-    italy_confirmed = to_numpy(Database("confirmed").get_patients_by_country("Italy"))
-    plot(range(len(italy_confirmed)), [italy_confirmed], [("red", "total_confimred_in_italy")],
-         filename="./italy_confirmed.png")
+    dates, italy_confirmed = to_numpy(Database("confirmed").get_patients_by_country("China"))
+    plot(range(len(dates)), [italy_confirmed], [("red", "total_confimred_in_italy")], filename="./italy_confirmed.png")
 
     model = SEIR(intervention_day=args.lockdown,
                  R0=args.R0,

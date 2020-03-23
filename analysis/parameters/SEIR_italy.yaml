@@ -19,14 +19,14 @@ effectiveness:
     type: "random"
     value: [0.3, 0.8]
   sigma: 0.1
-  min_val: 0.3
-  max_val: 0.8
+  min_val: 0.1
+  max_val: 0.9
 
 incubation_time:
   gene_type: "UniformGene"
   intitialization: 
-    type: "random"
-    value: [1, 10]
+    type: "int"
+    value: 5.2
   delta: 0.5
   min_val: 1
   max_val: 15
@@ -34,8 +34,8 @@ incubation_time:
 remove_time:
   gene_type: "UniformGene"
   intitialization: 
-    type: "random"
-    value: [1, 10]
+    type: "int"
+    value: 2.1
   delta: 0.5
   min_val: 1
   max_val: 15

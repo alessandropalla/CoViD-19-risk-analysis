@@ -1,6 +1,6 @@
 from utils.logger import logger, set_verbosity
 from db.utils import Database, to_numpy
-from analysis.model import SEIR, SEIRPopulation 
+from analysis.model import SEIR, SEIRPopulation
 from visualize.plot import plot
 import argparse
 
@@ -14,10 +14,7 @@ def define_and_parse_args():
                         help="Predict the number of confirmed infection in the next d days",
                         type=int,
                         required=True)
-    parser.add_argument("-R0",
-                        help="Infection R0",
-                        type=float,
-                        default=2.2)
+    parser.add_argument("-R0", help="Infection R0", type=float, default=2.2)
     parser.add_argument("-l",
                         "--lockdown",
                         help="Lockdown day, from the beginning of the epidemic",
@@ -40,18 +37,20 @@ def main(args):
     # Get the arguments
     logger.info("Italian Confirmed patients")
     italy_confirmed = to_numpy(Database("confirmed").get_patients_by_country("Italy"))
-    plot(range(len(italy_confirmed)), [italy_confirmed], [("red", "total_confimred_in_italy")], filename="./italy_confirmed.png")
+    plot(range(len(italy_confirmed)), [italy_confirmed], [("red", "total_confimred_in_italy")],
+         filename="./italy_confirmed.png")
 
     model = SEIR(intervention_day=args.lockdown,
-                 R0 = args.R0,
-                 effectiveness = args.effectivness,
-                 mean_incubation_time = 5.2,
-                 mean_remove_time = 2.1)
+                 R0=args.R0,
+                 effectiveness=args.effectivness,
+                 mean_incubation_time=5.2,
+                 mean_remove_time=2.1)
 
     y0 = [60000000, 0, 1, 0]
-    t =  list(range(args.days))
+    t = list(range(args.days))
     S, E, I, R = model.integrate(t, y0)
     plot(t, [R], [("red", "total_infected")], filename="./literature_model.png")
+
 
 if __name__ == "__main__":
     args = define_and_parse_args()

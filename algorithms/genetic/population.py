@@ -4,6 +4,7 @@ import numpy as np
 import itertools
 import yaml
 
+
 class Population():
     def __init__(self, model_type, element_fitness, filename):
 
@@ -12,7 +13,7 @@ class Population():
         self.model_type = model_type
 
         # Load configuration from file
-        with open(filename, "r") as fp:       
+        with open(filename, "r") as fp:
             self.load_configuration(yaml.load(fp, yaml.SafeLoader))
 
         # Get the elements
@@ -59,7 +60,8 @@ class Population():
         if self.selection_methods.lower() == "stochastic":
             elements_fitness = self.fitness().values()
             probability_distribution = self.softmax(elements_fitness)
-            return np.random.choice(self.elements, size = self.survivors, p = probability_distribution), min(elements_fitness)
+            return np.random.choice(self.elements, size=self.survivors,
+                                    p=probability_distribution), min(elements_fitness)
         else:
             selected = self.best_models()[:self.survivors]
             return selected, self.element_fitness(selected[0])[1]
@@ -75,14 +77,14 @@ class Population():
     def random_match(self, selected):
         combinations = list(itertools.combinations(selected, 2))
         np.random.shuffle(combinations)
-        return combinations[:len(selected)//2]
+        return combinations[:len(selected) // 2]
 
     # a single generation step
     def step(self):
         # Implement the evolution of the population
         survivors, best_fitness = self.selection()
-        population = sum([list(self.crossover(parent1, parent2))
-                            for parent1, parent2 in self.random_match(survivors)], [])
+        population = sum([list(self.crossover(parent1, parent2)) for parent1, parent2 in self.random_match(survivors)],
+                         [])
         self.elements = population
         return best_fitness
 

@@ -9,8 +9,8 @@ import pytest
 def test_sample_poisson(value, min_value, delta):
     gene = PoissonGene("dummy", value, min_val=min_value, max_val=min_value + delta)
     samples = [gene.sample().value for _ in range(100)]
-    assert all([x >= min_value and x <= min_value + delta
-                for x in samples])
+    assert all([x >= min_value and x <= min_value + delta for x in samples])
+
 
 @pytest.mark.parametrize("value", np.linspace(-10, 10, 10))
 @pytest.mark.parametrize("min_value", np.linspace(-10, 10, 10))
@@ -18,8 +18,8 @@ def test_sample_poisson(value, min_value, delta):
 def test_sample_uniform(value, min_value, delta):
     gene = UniformGene("dummy", value, min_val=min_value, max_val=min_value + delta)
     samples = [gene.sample().value for _ in range(100)]
-    assert all([x >= min_value and x <= min_value + delta
-                for x in samples])
+    assert all([x >= min_value and x <= min_value + delta for x in samples])
+
 
 @pytest.mark.parametrize("value", np.linspace(-10, 10, 10))
 @pytest.mark.parametrize("min_value", np.linspace(-10, 10, 10))
@@ -27,8 +27,8 @@ def test_sample_uniform(value, min_value, delta):
 def test_sample_normal(value, min_value, delta):
     gene = NormalGene("dummy", value, min_val=min_value, max_val=min_value + delta)
     samples = [gene.sample().value for _ in range(100)]
-    assert all([x >= min_value and x <= min_value + delta
-                for x in samples])
+    assert all([x >= min_value and x <= min_value + delta for x in samples])
+
 
 @pytest.mark.parametrize("value", np.linspace(-10, 10, 10))
 @pytest.mark.parametrize("min_value", np.linspace(-10, 10, 10))
@@ -36,8 +36,8 @@ def test_sample_normal(value, min_value, delta):
 def test_sample_uniformint(value, min_value, delta):
     gene = UniformIntGene("dummy", value, min_val=min_value, max_val=min_value + delta)
     samples = [gene.sample().value for _ in range(100)]
-    assert all([x >= min_value and x <= min_value + delta
-                for x in samples])
+    assert all([x >= min_value and x <= min_value + delta for x in samples])
+
 
 @pytest.mark.parametrize("gene_type", [PoissonGene, NormalGene, UniformGene, UniformIntGene])
 @pytest.mark.parametrize("value", [1, 5, 10, 30])

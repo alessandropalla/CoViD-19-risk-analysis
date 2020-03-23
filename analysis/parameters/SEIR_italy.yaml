@@ -50,7 +50,7 @@ initial_exposed:
   gene_type: "NormalGene"
   intitialization: 
     type: "random"
-    value: [1, 100]
+    value: [1, 1000]
   sigma: 5
   min_val: 0
   max_val: 1000
@@ -59,7 +59,16 @@ initial_infected:
   gene_type: "NormalGene"
   intitialization: 
     type: "random"
-    value: [1, 100]
+    value: [1, 1000]
+  sigma: 5
+  min_val: 1
+  max_val: 1000
+
+initial_removed:
+  gene_type: "NormalGene"
+  intitialization: 
+    type: "random"
+    value: [1, 1000]
   sigma: 5
   min_val: 1
   max_val: 1000

@@ -3,6 +3,7 @@ training:
   survivors: 50
   offsprings: 20
   selection_methods: "best"
+  preserve_parents: True
 
 genes:
   filename: "analysis/parameters/SEIR_italy.yaml"

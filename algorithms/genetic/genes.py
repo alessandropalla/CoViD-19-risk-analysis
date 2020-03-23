@@ -15,7 +15,7 @@ class __Gene():
     def sample(self, n=1):
         min_val = self.params["min_val"] if "min_val" in self.params.keys() else -np.inf
         max_val = self.params["max_val"] if "max_val" in self.params.keys() else np.inf
-        return type(self)(self.name, np.clip(self.distribution(self.value, n), min_val, max_val), **self.params)
+        return type(self)(self.name, np.clip(self.distribution(self.value, n), min_val, max_val).item(), **self.params)
 
     def dump(self):
         return (self.name, {

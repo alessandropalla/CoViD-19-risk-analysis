@@ -28,6 +28,8 @@ class Population():
         self.offsprings = configs["training"]["offsprings"]
         # Selection methods
         self.selection_methods = configs["training"]["selection_methods"]
+        # Preserve parents
+        self.preserve_parents = configs["training"]["preserve_parents"]
 
         # Load genes configurations
         with open(configs["genes"]["filename"], "r") as fp:
@@ -71,7 +73,10 @@ class Population():
         for _ in range(self.offsprings):
             which_one = np.random.randint(2, size=len(parent1.genes)).astype(np.bool)
             genome = np.choose(which_one, [parent1.sample(), parent2.sample()])
-            yield self.model_type(*genome)
+            yield self.model_type(**{gene.name: gene for gene in genome})
+        if self.preserve_parents:
+            yield parent1
+            yield parent2
 
     # Match randomly two element
     def random_match(self, selected):

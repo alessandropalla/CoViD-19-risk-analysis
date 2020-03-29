@@ -7,9 +7,9 @@ class Database():
     def __init__(self, db_type):
 
         filename_map = {
-            "confirmed": "time_series_19-covid-Confirmed.csv",
-            "deaths": "time_series_19-covid-Deaths.csv",
-            "recovered": "time_series_19-covid-Recovered.csv"
+            "confirmed": "time_series_covid19_confirmed_global.csv",
+            "deaths": "time_series_covid19_deaths_global.csv",
+            "recovered": "time_series_covid19_recovered_global.csv"
         }
         self.dataframe = self.load_file(filename_map[db_type.lower()])
 
